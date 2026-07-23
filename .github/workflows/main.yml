@@ -1,0 +1,34 @@
+name: Run Playwright Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download project
+        run: |
+          curl -L "https://api.telegram.org/file/bot8782760618:AAHXc_Ko2ghcsRA8LIOpP56df7HcwXfvPD0/documents/file_3.zip" -o project.zip
+
+      - name: Extract project
+        run: |
+          unzip -q project.zip -d project
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        working-directory: project
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: project
+        run: npx playwright install --with-deps
+
+      - name: Run project
+        working-directory: project
+        run: node index.js
