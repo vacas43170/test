@@ -16,6 +16,15 @@ jobs:
         run: |
           unzip -q project.zip -d project
 
+      - name: List extracted files
+        run: |
+          echo "=== Project Structure ==="
+          find project
+
+          echo ""
+          echo "=== Detailed Listing ==="
+          ls -lahR project
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -23,7 +32,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: project
-        run: npm i
+        run: npm ci
 
       - name: Install Playwright browsers
         working-directory: project
